@@ -8,6 +8,8 @@ var ground, invisibleGround, groundImage;
 var cloudsGroup, cloudImage;
 var obstaclesGroup, obstacle1, obstacle2, obstacle3, obstacle4, obstacle5, obstacle6;
 
+var invisibleMap;
+
 var score=0;
 
 var gameOver, restart;
@@ -62,6 +64,9 @@ function setup() {
   invisibleGround = createSprite(200,190,400,10);
   invisibleGround.visible = false;
   
+  invisibleMap = createSprite(300,100,600,200);
+  invisibleMap.visible = false;
+
   cloudsGroup = new Group();
   obstaclesGroup = new Group();
   
@@ -69,17 +74,21 @@ function setup() {
 }
 
 function draw() {
-  //trex.debug = true;
+  
   background(255);
   text("Score: "+ score, 500,50);
   
   if (gameState===PLAY){
-    score = score + Math.round(getFrameRate()/60);
+    score = score + Math.round(getFrameRate()/40);
     ground.velocityX = -(6 + 3*score/100);
   
-    if(keyDown("space") && trex.y >= 159) {
+    if(keyDown("space") && trex.y >= 159 || mousePressedOver(invisibleMap) && trex.y >=159) {
       trex.velocityY = -12;
     }
+
+    trex.setCollider("rectangle",0,0,70,70)
+
+    trex.debug=false;
   
     trex.velocityY = trex.velocityY + 0.8
   
